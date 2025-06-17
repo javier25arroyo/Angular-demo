@@ -13,6 +13,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { GamesComponent } from './pages/games/games.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
+import { InformationComponent } from './pages/information/information.component';
 
 export const routes: Routes = [
   {
@@ -121,7 +122,11 @@ export const routes: Routes = [
           name: 'preference list',
           showInSidebar: true
         }
-      }
+      },
+      { 
+        path: 'information', 
+        component: InformationComponent 
+      },
     ],
   },
 ];
