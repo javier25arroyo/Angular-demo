@@ -13,12 +13,18 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { GamesComponent } from './pages/games/games.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
+import { GabrielPagComponent } from './pages/gabriel-pag/gabriel-pag.component';
 import { InformationComponent } from './pages/information/information.component';
 
 export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [GuestGuard],
+  },
+  {
+    path: 'gabriel',
+    component: GabrielPagComponent,
     canActivate: [GuestGuard],
   },
   {
