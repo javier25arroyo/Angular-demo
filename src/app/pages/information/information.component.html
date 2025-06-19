@@ -1,0 +1,52 @@
+<div class="band-info-page">
+  <header class="page-header">
+    <h1>{{ bandName }}</h1>
+    <img [src]="bandImageUrl" [alt]="'Foto de ' + bandName" class="band-main-image">
+  </header>
+
+  <section class="info-section">
+    <h2>Información General</h2>
+    <p><strong>Origen:</strong> {{ origin }}</p>
+    <p><strong>Géneros:</strong> {{ genres.join(', ') }}</p>
+    <p><strong>Años en activo:</strong> {{ yearsActive }}</p>
+    <p class="band-description">{{ description }}</p>
+  </section>
+
+  <section class="info-section members-section">
+    <h2>Miembros</h2>
+    <div class="members-columns">
+      <div>
+        <h3>Actuales:</h3>
+        <ul>
+          <li *ngFor="let member of currentMembers">
+            <strong>{{ member.name }}</strong> - {{ member.role }}
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h3>Anteriores (destacados):</h3>
+        <ul>
+          <li *ngFor="let member of pastMembers">
+            <strong>{{ member.name }}</strong> - {{ member.role }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-section discography-section">
+    <h2>Discografía (Álbumes de Estudio)</h2>
+    <div class="albums-grid">
+      <div *ngFor="let album of studioAlbums" class="album-card">
+        <img *ngIf="album.coverUrl" [src]="album.coverUrl" [alt]="'Portada de ' + album.title" class="album-cover">
+        <div class="album-details">
+          <h3>{{ album.title }} ({{ album.year }})</h3>
+          <p *ngIf="album.tracks && album.tracks.length > 0"><strong>Pistas destacadas:</strong></p>
+          <ul *ngIf="album.tracks && album.tracks.length > 0">
+            <li *ngFor="let track of album.tracks | slice:0:5">{{ track }} <span *ngIf="album.tracks.length > 5 && (album.tracks | slice:0:5).indexOf(track) === 4">...</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
