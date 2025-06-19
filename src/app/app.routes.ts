@@ -16,6 +16,7 @@ import { PreferenceListPageComponent } from './pages/preferenceList/preference-l
 import { GabrielPagComponent } from './pages/gabriel-pag/gabriel-pag.component';
 import { InformationComponent } from './pages/information/information.component';
 
+
 export const routes: Routes = [
   {
     path: 'login',
