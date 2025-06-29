@@ -104,3 +104,17 @@ export interface IPlayer {
   id?: number;
   name?: string;
 }
+export interface IProduct {
+  id?: number;                
+  name: string;
+  description: string;
+  price: number;
+  stock: number;
+  categoryId: number;        
+}
+
+export interface ICategory {
+  id?: number;               
+  nombre: string;
+  descripcion: string;
+}

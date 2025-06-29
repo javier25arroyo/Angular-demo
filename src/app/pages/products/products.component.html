@@ -1,0 +1,26 @@
+<div class="container-fluid">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Gestión de Productos</h2>
+    <button class="btn btn-primary" (click)="modalService.displayModal('md', addProductsModal)">
+      Agregar Producto
+    </button>
+  </div>
+
+  <app-product-list
+    (editProduct)="callEdition($event)"
+  ></app-product-list>
+</div>
+
+<ng-template #addProductsModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">{{ productForm.get('id')?.value ? 'Editar' : 'Agregar' }} Producto</h4>
+    <button type="button" class="btn-close" (click)="modalService.closeAll()"></button>
+  </div>
+  <div class="modal-body">
+    <app-product-form
+      [productForm]="productForm"
+      (saveProduct)="saveProduct($event)"
+      (updateProduct)="updateProduct($event)"
+    ></app-product-form>
+  </div>
+</ng-template>

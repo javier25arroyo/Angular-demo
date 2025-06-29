@@ -1,3 +1,25 @@
-<div>
+<div class="dashboard">
   <h1>Dashboard</h1>
+  
+  <div class="dashboard-section">
+    <h2>Productos</h2>
+    <div class="card-container">
+      <div class="card" *ngFor="let product of products">
+        <h3>{{ product.name }}</h3>
+        <p><strong>Descripción:</strong> {{ product.description }}</p>
+        <p><strong>Precio:</strong> {{ product.price }}</p>
+        <p><strong>Stock:</strong> {{ product.stock }}</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="dashboard-section">
+    <h2>Categorías</h2>
+    <div class="card-container">
+      <div class="card" *ngFor="let category of categories">
+        <h3>{{ category.nombre }}</h3>
+        <p>{{ category.descripcion }}</p>
+      </div>
+    </div>
+  </div>
 </div>

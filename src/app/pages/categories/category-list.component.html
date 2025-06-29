@@ -1,0 +1,29 @@
+<h2 class="title">{{ title }}</h2>
+
+<button class="btn-new" (click)="callModalAction.emit()">
+  ➕ Nueva
+</button>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th><th>Nombre</th><th>Descripción</th><th>Acciones</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    @for (c of categories; track c.id) {
+      <tr>
+        <td>{{ c.id }}</td>
+        <td>{{ c.nombre }}</td>
+        <td>{{ c.descripcion }}</td>
+        <td>
+          <button (click)="callModalAction.emit(c)">✏️</button>
+          <button (click)="callDeleteAction.emit(c)">🗑️</button>
+        </td>
+      </tr>
+    } @empty {
+      <tr><td colspan="4">No hay categorías</td></tr>
+    }
+  </tbody>
+</table>
