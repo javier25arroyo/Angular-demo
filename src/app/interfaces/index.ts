@@ -88,3 +88,19 @@ export interface IPreferenceList {
   name?: string;
   movies?: IMovie[];
 }
+
+export interface ISportTeam {
+  id?: number;
+  name?: string;
+  players?: IPlayer[];
+  stadium?: string;
+  founded?: number;
+  coach?: string;
+  isInClubsWorldCup?: boolean;
+  teamLogo?: string;
+}
+
+export interface IPlayer {
+  id?: number;
+  name?: string;
+}
