@@ -14,7 +14,6 @@ import { GamesComponent } from './pages/games/games.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
 import { SportTeamComponent } from './pages/sport-team/sport-team.component';
-import { HeroPageComponent } from './pages/hero/hero-page.component';
 
 export const routes: Routes = [
   {
@@ -137,10 +136,6 @@ export const routes: Routes = [
           showInSidebar: true
         }
       },
-      {
-        path: 'hero',
-        component: HeroPageComponent,
-      }
     ],
   },
 ];
