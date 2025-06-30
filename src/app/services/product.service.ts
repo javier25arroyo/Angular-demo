@@ -1,79 +1,75 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, Signal, computed, inject, signal } from '@angular/core';
-import { IProduct, ISearch } from '../interfaces';
-import { toObservable } from '@angular/core/rxjs-interop';
-import { finalize, tap } from 'rxjs';
+import { inject, Injectable, signal } from '@angular/core';
+import { BaseService } from './base-service';
+import { IResponse, ISearch, ISportTeam } from '../interfaces';
 import { AlertService } from './alert.service';
-
+import { IProduct } from '../interfaces/';
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService extends BaseService <IProduct> {
-  private http = inject(HttpClient);
-  private alertService = inject(AlertService);
-  
-  private _products = signal<IProduct[]>([]);
-  
-  products$ = computed(() => this._products());
-  
-  search: ISearch = {
-    pageSize: 5,
+  protected override source: string = 'products';
+  private productListSgnal = signal<IProduct[]>([]);
+  get products$() {
+    return this.productListSgnal;
+  }
+  public search: ISearch = {
     page: 1,
-  };
-
-  isLoading = signal<boolean>(false);
+    size: 5,
+  }
+  
+  public totalItems: any = [];
+  private alertService: AlertService = inject(AlertService);
 
   getAll() {
-    this.isLoading.set(true);
-    return this.http
-      .get<IProduct[]>(`products?page=${this.search.page}&size=${this.search.pageSize}`)
-      .pipe(
-        finalize(() => this.isLoading.set(false))
-      )
-      .subscribe({
-        next: (resp: any) => {
-          this._products.set(resp.data);
-          this.search.totalPages = resp.meta.totalPages;
-        },
-        error: () => {
-          this.alertService.error('Error al cargar los productos');
-        },
-      });
-  }
-
-  save(product: IProduct) {
-    return this.http.post<IProduct>('products', product).subscribe({
-      next: () => {
-        this.alertService.success('Producto guardado correctamente');
-        this.getAll();
+    this.findAllWithParams({ page: this.search.page, size: this.search.size }).subscribe({
+      next: (response: IResponse<IProduct[]>) => {
+        this.search = { ...this.search, ...response.meta };
+        this.totalItems = Array.from({ length: this.search.totalPages ? this.search.totalPages : 0 }, (_, i) => i + 1);
+        this.productListSgnal.set(response.data);
       },
-      error: () => {
-        this.alertService.error('Error al guardar el producto');
+      error: (err: any) => {
+        console.error('error', err);
       },
     });
   }
 
-  update(product: IProduct) {
-    return this.http.put<IProduct>(`products/${product.id}`, product).subscribe({
-      next: () => {
-        this.alertService.success('Producto actualizado correctamente');
+  save(item: IProduct) {
+    this.add(item).subscribe({
+      next: (response: IResponse<IProduct>) => {
+        this.alertService.displayAlert('success', response.message, 'center', 'top', ['success-snackbar']);
         this.getAll();
       },
-      error: () => {
-        this.alertService.error('Error al actualizar el producto');
+      error: (err: any) => {
+        this.alertService.displayAlert('error', 'An error occurred adding the product', 'center', 'top', ['error-snackbar']);
+        console.error('error', err);
       },
     });
   }
 
-  delete(product: IProduct) {
-    return this.http.delete<void>(`products/${product.id}`).subscribe({
-      next: () => {
-        this.alertService.success('Producto eliminado correctamente');
+  update(item: IProduct) {
+    this.edit(item.id, item).subscribe({
+      next: (response: IResponse<IProduct>) => {
+        this.alertService.displayAlert('success', response.message, 'center', 'top', ['success-snackbar']);
         this.getAll();
       },
-      error: () => {
-        this.alertService.error('Error al eliminar el producto');
+      error: (err: any) => {
+        this.alertService.displayAlert('error', 'An error occurred updating the product', 'center', 'top', ['error-snackbar']);
+        console.error('error', err);
       },
     });
   }
-}
+
+  delete(id: number) {
+    this.del(id).subscribe({
+      next: (response: IResponse<IProduct>) => {
+        this.alertService.displayAlert('success', response.message, 'center', 'top', ['success-snackbar']);
+        this.getAll();
+      },
+      error: (err: any) => {
+        this.alertService.displayAlert('error', 'An error occurred deleting the product', 'center', 'top', ['error-snackbar']);
+        console.error('error', err);
+      },
+    });
+  }
+
+  }

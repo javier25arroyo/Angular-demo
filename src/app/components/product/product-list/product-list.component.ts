@@ -1,28 +1,30 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ProductService } from '../../../services/product.service';
-import { PaginationComponent } from '../../pagination/pagination.component';
-import type { IProduct } from '../../../interfaces';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { IProduct } from '../../../interfaces';
+import { AuthService } from '../../../services/auth.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-product-list',
-  standalone: true,
-  imports: [CommonModule, PaginationComponent],
-  templateUrl: './product-list.component.html',
-  styleUrl: './product-list.component.scss'
+  selector: "app-product-list",
+  templateUrl: "./product-list.component.html",
+  styleUrls: ["./product-list.component.scss"],
+  standalone: true
 })
 export class ProductListComponent {
-  productService = inject(ProductService);
+  @Input() productList: IProduct[] = [];
+  @Output() callUpdateModalMethod: EventEmitter<IProduct> = new EventEmitter<IProduct>();
+  @Output() callDeleteMethod: EventEmitter<IProduct> = new EventEmitter<IProduct>();
+  public productService: AuthService = inject(AuthService);
+  public areActionsAvailable: boolean = false;
+  public route: ActivatedRoute = inject(ActivatedRoute);
+  authService: any;
+  
 
-  @Output() editProduct = new EventEmitter<IProduct>();
-
-  onEdit(product: IProduct) {
-    this.editProduct.emit(product);
+  ngOnInit(): void {
+    this.authService.getUserAuthorities();
+    this.route.data.subscribe( data => {
+      this.areActionsAvailable = this.authService.areActionsAvailable(data['authorities'] ? data['authorities'] : []);
+    });
   }
 
-  onDelete(product: IProduct) {
-    if (confirm(`¿Está seguro de eliminar el producto "${product.name}"?`)) {
-      this.productService.delete(product);
-    }
-  }
 }
+

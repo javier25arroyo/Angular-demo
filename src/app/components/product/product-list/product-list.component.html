@@ -1,41 +1,23 @@
-<div class="table-responsive">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Descripción</th>
-        <th>Precio</th>
-        <th>Stock</th>
-        <th>Categoría</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let product of productService.products$()">
-        <td>{{ product.id }}</td>
-        <td>{{ product.name }}</td>
-        <td>{{ product.description }}</td>
-        <td>{{ product.price | currency }}</td>
-        <td>{{ product.stock }}</td>
-        <td>{{ product.categoryId }}</td>
-        <td>
-          <button 
-            class="btn btn-sm btn-primary me-2" 
-            (click)="onEdit(product)">
-            Editar
-          </button>
-          <button 
-            class="btn btn-sm btn-danger" 
-            (click)="onDelete(product)">
-            Eliminar
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+<div class="product-container">
+  @for (product of productList; track product) {
+    <div class="product-item">
+      <h2>Product: {{product.name}}</h2>
+      <p>Price: {{product.price}}</p>
+      <p>Description: {{product.description}}</p>
+      <p>Category: {{product.categoryId}}</p>
+      <p>Stock: {{product.stock}}</p>
 
-<app-pagination 
-  [service]="productService">
-</app-pagination>
+      <p>Description: {{product.description}}</p>
+      @if (product.description) {
+        <p>Description: {{product.description}}</p>
+      } @else {
+        <p>No description available.</p>
+      }
+      @if (areActionsAvailable) {
+        <button (click)="callUpdateModalMethod.emit(product)" class="btn btn-success">Edit</button>
+        <button (click)="callDeleteMethod.emit(product)" class="btn btn-danger">Delete</button>
+      }
+    </div>
+  } @empty {
+    <p>No products available.</p>
+  } </div>
