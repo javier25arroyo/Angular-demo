@@ -1,0 +1,56 @@
+<div class="category-management-container">
+  <div class="header-actions">
+    <h1>Administración de Categorías</h1>
+    @if (isAdmin) {
+      <button class="btn btn-primary" (click)="openNewCategoryForm()">Nueva Categoría</button>
+    }
+  </div>
+
+  @if (showForm) {
+    <div class="form-overlay">
+      <div class="form-container">
+        <app-entity-form 
+          entityType="category"
+          [entity]="selectedCategory"
+          (save)="saveCategory($event)"
+          (cancel)="closeForm()">
+        </app-entity-form>
+      </div>
+    </div>
+  }
+  
+  @if (showConfirmDialog) {
+    <app-confirmation-dialog
+      title="Eliminar Categoría"
+      [message]="'¿Está seguro que desea eliminar la categoría \'' + (categoryToDelete?.nombre || '') + '\'? Esta acción no se puede deshacer.'"
+      confirmButtonText="Eliminar"
+      [dangerous]="true"
+      (confirm)="confirmDelete()"
+      (cancel)="closeConfirmDialog()">
+    </app-confirmation-dialog>
+  }
+  
+  <div class="category-list-container">
+    @if (categories.length === 0) {
+      <div class="empty-state">
+        <p>No hay categorías disponibles</p>
+      </div>
+    } @else {
+      <div class="category-grid">
+        @for (category of categories; track category.id) {
+          <div class="category-card">
+            <h3>{{ category.nombre }}</h3>
+            <p class="category-description">{{ category.descripcion }}</p>
+            
+            <div class="category-actions">
+              @if (isAdmin) {
+                <button class="btn btn-edit" (click)="editCategory(category)">Editar</button>
+                <button class="btn btn-delete" (click)="deleteCategory(category)">Eliminar</button>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

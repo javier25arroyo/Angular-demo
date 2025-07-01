@@ -1,1 +1,54 @@
-<p>dashboard works!</p>
+<div class="dashboard">
+  <h1>Dashboard</h1>
+
+  <div class="dashboard-links">
+    <a [routerLink]="['/app/products']" class="dashboard-link">
+      <div class="dashboard-link-icon">
+        <i class="fas fa-box"></i>
+      </div>
+      <span>Gestionar Productos</span>
+    </a>
+    <a [routerLink]="['/app/categories']" class="dashboard-link">
+      <div class="dashboard-link-icon">
+        <i class="fas fa-tags"></i>
+      </div>
+      <span>Gestionar Categorías</span>
+    </a>
+  </div>
+  
+  <div class="dashboard-section">
+    <h2>Productos</h2>
+    <div class="card-container">
+      @for (product of products; track product.id) {
+        <div class="card">
+          <h3>{{ product.name }}</h3>
+          <p><strong>Descripción:</strong> {{ product.description }}</p>
+          <p><strong>Precio:</strong> {{ product.price }}</p>
+          <p><strong>Stock:</strong> {{ product.stock }}</p>
+        </div>
+      } @empty {
+        <p>No hay productos disponibles</p>
+      }
+      <div class="view-all-card">
+        <a [routerLink]="['/app/products']">Ver todos los productos</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="dashboard-section">
+    <h2>Categorías</h2>
+    <div class="card-container">
+      @for (category of categories; track category.id) {
+        <div class="card">
+          <h3>{{ category.nombre }}</h3>
+          <p>{{ category.descripcion }}</p>
+        </div>
+      } @empty {
+        <p>No hay categorías disponibles</p>
+      }
+      <div class="view-all-card">
+        <a [routerLink]="['/app/categories']">Ver todas las categorías</a>
+      </div>
+    </div>
+  </div>
+</div>

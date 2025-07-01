@@ -1,0 +1,60 @@
+<div class="product-management-container">
+  <div class="header-actions">
+    <h1>Administración de Productos</h1>
+    @if (isAdmin) {
+      <button class="btn btn-primary" (click)="openNewProductForm()">Nuevo Producto</button>
+    }
+  </div>
+
+  @if (showForm) {
+    <div class="form-overlay">
+      <div class="form-container">
+        <app-entity-form 
+          entityType="product"
+          [entity]="selectedProduct"
+          (save)="saveProduct($event)"
+          (cancel)="closeForm()">
+        </app-entity-form>
+      </div>
+    </div>
+  }
+  
+  @if (showConfirmDialog) {
+    <app-confirmation-dialog
+      title="Eliminar Producto"
+      [message]="'¿Está seguro que desea eliminar el producto \'' + (productToDelete?.name || '') + '\'? Esta acción no se puede deshacer.'"
+      confirmButtonText="Eliminar"
+      [dangerous]="true"
+      (confirm)="confirmDelete()"
+      (cancel)="closeConfirmDialog()">
+    </app-confirmation-dialog>
+  }
+  
+  <div class="product-list-container">
+    @if (products.length === 0) {
+      <div class="empty-state">
+        <p>No hay productos disponibles</p>
+      </div>
+    } @else {
+      <div class="product-grid">
+        @for (product of products; track product.id) {
+          <div class="product-card">
+            <div class="product-header">
+              <h3>{{ product.name }}</h3>
+              <span class="product-price">{{ product.price | currency }}</span>
+            </div>
+            
+            <p class="product-description">{{ product.description }}</p>
+            <p><strong>Stock:</strong> {{ product.stock || 0 }}</p>
+            <p><strong>Categoría:</strong> {{ getCategory(product.categoryId) }}</p>              <div class="product-actions">
+                @if (isAdmin) {
+                  <button class="btn btn-edit" (click)="editProduct(product)">Editar</button>
+                  <button class="btn btn-delete" (click)="deleteProduct(product)">Eliminar</button>
+                }
+              </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

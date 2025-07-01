@@ -1,0 +1,101 @@
+.confirmation-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100; // Mayor que el formulario para que aparezca por encima
+}
+
+.confirmation-dialog {
+  background-color: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  animation: fade-in 0.2s ease;
+  
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  .confirmation-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #eee;
+    
+    h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      
+      &.dangerous {
+        color: #dc3545;
+      }
+    }
+  }
+  
+  .confirmation-body {
+    padding: 1.5rem;
+    
+    p {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #555;
+    }
+  }
+  
+  .confirmation-actions {
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    border-top: 1px solid #eee;
+    
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      
+      &.btn-secondary {
+        background-color: #f8f9fa;
+        color: #212529;
+        border: 1px solid #dee2e6;
+        
+        &:hover {
+          background-color: #e9ecef;
+        }
+      }
+      
+      &.btn-primary {
+        background-color: #007bff;
+        color: white;
+        
+        &:hover {
+          background-color: #0069d9;
+        }
+      }
+      
+      &.btn-danger {
+        background-color: #dc3545;
+        color: white;
+        
+        &:hover {
+          background-color: #c82333;
+        }
+      }
+    }
+  }
+}

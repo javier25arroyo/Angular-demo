@@ -7,18 +7,26 @@ export interface Product {
   name: string;
   price: number;
   categoryId: number;
+  description?: string; 
+  stock?: number; 
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  private apiUrl = '/api/products';
+
+  private apiUrl = 'products';
 
   constructor(private http: HttpClient) {}
 
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.apiUrl);
+  }
+
+
+  getProductById(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.apiUrl}/${id}`);
   }
 
   createProduct(product: Product): Observable<Product> {

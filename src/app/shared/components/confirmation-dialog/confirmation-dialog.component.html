@@ -1,0 +1,26 @@
+<div class="confirmation-overlay">
+  <div class="confirmation-dialog">
+    <div class="confirmation-header">
+      <h2 [class.dangerous]="dangerous">{{ title }}</h2>
+    </div>
+    
+    <div class="confirmation-body">
+      <p>{{ message }}</p>
+    </div>
+    
+    <div class="confirmation-actions">
+      <button 
+        class="btn btn-secondary" 
+        (click)="onCancel()">
+        {{ cancelButtonText }}
+      </button>
+      <button 
+        class="btn" 
+        [class.btn-danger]="dangerous" 
+        [class.btn-primary]="!dangerous" 
+        (click)="onConfirm()">
+        {{ confirmButtonText }}
+      </button>
+    </div>
+  </div>
+</div>

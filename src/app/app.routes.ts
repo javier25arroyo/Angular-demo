@@ -12,8 +12,8 @@ import { IRoleType } from './interfaces';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { GamesComponent } from './pages/games/games.component';
 import { OrdersComponent } from './pages/orders/orders.component';
-import { CategoryListComponent } from './components/category-list/category-list.component';
-import { ProductListComponent } from './components/products/product-list/product-list.component';
+import { ProductManagementComponent } from './pages/product-management/product-management.component';
+import { CategoryManagementComponent } from './pages/category-management/category-management.component';
 
 export const routes: Routes = [
   {
@@ -111,28 +111,30 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'categories',
-        component: CategoryListComponent,
+        path: 'products',
+        component: ProductManagementComponent,
+        canActivate: [AuthGuard], // Solo requiere autenticación, las restricciones de edición están en el componente
         data: { 
           authorities: [
             IRoleType.admin, 
             IRoleType.superAdmin,
-            IRoleType.user,
+            IRoleType.user
           ],
-          name: 'categories',
+          name: 'Productos',
           showInSidebar: true
         }
       },
       {
-        path: 'products',
-        component: ProductListComponent,
+        path: 'categories',
+        component: CategoryManagementComponent,
+        canActivate: [AuthGuard], // Solo requiere autenticación, las restricciones de edición están en el componente
         data: { 
           authorities: [
             IRoleType.admin, 
             IRoleType.superAdmin,
-            IRoleType.user,
+            IRoleType.user
           ],
-          name: 'products',
+          name: 'Categorías',
           showInSidebar: true
         }
       },

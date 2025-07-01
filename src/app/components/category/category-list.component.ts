@@ -1,35 +1,60 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { CategoryService, Category } from '../../services/category.service';
 
-export interface Product {
-  id?: number;
-  name: string;
-  price: number;
-  categoryId: number;
-}
-
-@Injectable({
-  providedIn: 'root'
+@Component({
+  selector: 'app-category-list',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './category-list.component.html'
 })
-export class ProductService {
-  private apiUrl = '/api/products';
+export class CategoryListComponent {
+  categories: Category[] = [];
+  newCategoryName = '';
+  editCategoryId: number | null = null;
+  editCategoryName = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private categoryService: CategoryService) {}
 
-  getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiUrl);
+  ngOnInit(): void {
+    this.loadCategories();
   }
 
-  createProduct(product: Product): Observable<Product> {
-    return this.http.post<Product>(this.apiUrl, product);
+  loadCategories(): void {
+    this.categoryService.getCategories().subscribe(data => this.categories = data);
   }
 
-  updateProduct(id: number, product: Product): Observable<Product> {
-    return this.http.put<Product>(`${this.apiUrl}/${id}`, product);
+  addCategory(): void {
+    if (!this.newCategoryName.trim()) return;
+    const category: Category = { name: this.newCategoryName };
+    this.categoryService.createCategory(category).subscribe(() => {
+      this.newCategoryName = '';
+      this.loadCategories();
+    });
   }
 
-  deleteProduct(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  startEdit(category: Category): void {
+    this.editCategoryId = category.id!;
+    this.editCategoryName = category.name;
+  }
+
+  updateCategory(): void {
+    if (!this.editCategoryName.trim() || this.editCategoryId === null) return;
+    const category: Category = { name: this.editCategoryName };
+    this.categoryService.updateCategory(this.editCategoryId, category).subscribe(() => {
+      this.editCategoryId = null;
+      this.editCategoryName = '';
+      this.loadCategories();
+    });
+  }
+
+  deleteCategory(id: number): void {
+    this.categoryService.deleteCategory(id).subscribe(() => this.loadCategories());
+  }
+
+  cancelEdit(): void {
+    this.editCategoryId = null;
+    this.editCategoryName = '';
   }
 }

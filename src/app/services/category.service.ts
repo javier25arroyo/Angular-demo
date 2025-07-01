@@ -4,14 +4,15 @@ import { Observable } from 'rxjs';
 
 export interface Category {
   id?: number;
-  name: string;
+  nombre: string;
+  descripcion: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
-  private apiUrl = 'api/categories';
+  private apiUrl = 'categories';
 
   constructor(private http: HttpClient) {}
 
