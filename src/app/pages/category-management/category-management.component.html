@@ -1,8 +1,12 @@
 <div class="category-management-container">
   <div class="header-actions">
     <h1>Administración de Categorías</h1>
-    @if (isAdmin) {
+    @if (isSuperAdmin) {
       <button class="btn btn-primary" (click)="openNewCategoryForm()">Nueva Categoría</button>
+    } @else {
+      <div class="permission-notice">
+        <i class="fas fa-lock"></i> Solo los usuarios con rol Super-Admin pueden registrar, actualizar o eliminar categorías
+      </div>
     }
   </div>
 
@@ -43,7 +47,7 @@
             <p class="category-description">{{ category.descripcion }}</p>
             
             <div class="category-actions">
-              @if (isAdmin) {
+              @if (isSuperAdmin) {
                 <button class="btn btn-edit" (click)="editCategory(category)">Editar</button>
                 <button class="btn btn-delete" (click)="deleteCategory(category)">Eliminar</button>
               }

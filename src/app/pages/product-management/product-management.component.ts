@@ -22,7 +22,7 @@ export class ProductManagementComponent implements OnInit {
   showConfirmDialog = false;
   productToDelete: Product | null = null;
   selectedProduct: Product | null = null;
-  isAdmin = false;
+  isSuperAdmin = false;
   
   constructor(
     private productService: ProductService,
@@ -30,7 +30,8 @@ export class ProductManagementComponent implements OnInit {
     private snackBar: MatSnackBar,
     private authService: AuthService
   ) {
-    this.isAdmin = this.authService.hasRole(IRoleType.admin) || this.authService.hasRole(IRoleType.superAdmin);
+    // Solo los superadministradores pueden modificar productos
+    this.isSuperAdmin = this.authService.hasRole(IRoleType.superAdmin);
   }
   
   ngOnInit(): void {

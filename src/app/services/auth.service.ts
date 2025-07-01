@@ -82,6 +82,12 @@ export class AuthService {
     let permittedRoutes: any[] = [];
     for (const route of routes) {
       if(route.data && route.data.authorities) {
+        // Si la ruta es exclusiva de SUPER_ADMIN, solo mostrarla a usuarios con ese rol
+        if (route.data.superAdminOnly && !this.hasRole(IRoleType.superAdmin)) {
+          continue;
+        }
+        
+        // Verificar los roles permitidos
         if (this.hasAnyRole(route.data.authorities)) {
           permittedRoutes.unshift(route);
         } 

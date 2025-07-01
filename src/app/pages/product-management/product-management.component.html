@@ -1,8 +1,12 @@
 <div class="product-management-container">
   <div class="header-actions">
     <h1>Administración de Productos</h1>
-    @if (isAdmin) {
+    @if (isSuperAdmin) {
       <button class="btn btn-primary" (click)="openNewProductForm()">Nuevo Producto</button>
+    } @else {
+      <div class="permission-notice">
+        <i class="fas fa-lock"></i> Solo los usuarios con rol Super-Admin pueden registrar, actualizar o eliminar productos
+      </div>
     }
   </div>
 
@@ -47,7 +51,7 @@
             <p class="product-description">{{ product.description }}</p>
             <p><strong>Stock:</strong> {{ product.stock || 0 }}</p>
             <p><strong>Categoría:</strong> {{ getCategory(product.categoryId) }}</p>              <div class="product-actions">
-                @if (isAdmin) {
+                @if (isSuperAdmin) {
                   <button class="btn btn-edit" (click)="editProduct(product)">Editar</button>
                   <button class="btn btn-delete" (click)="deleteProduct(product)">Eliminar</button>
                 }

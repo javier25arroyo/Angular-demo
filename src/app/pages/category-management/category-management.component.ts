@@ -20,14 +20,15 @@ export class CategoryManagementComponent implements OnInit {
   showConfirmDialog = false;
   categoryToDelete: Category | null = null;
   selectedCategory: Category | null = null;
-  isAdmin = false;
+  isSuperAdmin = false;
   
   constructor(
     private categoryService: CategoryService,
     private snackBar: MatSnackBar,
     private authService: AuthService
   ) {
-    this.isAdmin = this.authService.hasRole(IRoleType.admin) || this.authService.hasRole(IRoleType.superAdmin);
+    // Solo los superadministradores pueden modificar categorías
+    this.isSuperAdmin = this.authService.hasRole(IRoleType.superAdmin);
   }
   
   ngOnInit(): void {
@@ -38,9 +39,12 @@ export class CategoryManagementComponent implements OnInit {
     this.categoryService.getCategories().subscribe({
       next: (data: Category[]) => {
         this.categories = data;
+        console.log('Categorías cargadas correctamente:', data);
       },
       error: (error: any) => {
-        this.showMessage('Error al cargar las categorías: ' + error.message);
+        console.error('Error completo al cargar categorías:', error);
+        const errorMsg = error.error?.message || error.message || error.statusText || 'Error desconocido';
+        this.showMessage(`Error al cargar las categorías: ${errorMsg} (${error.status})`);
       }
     });
   }

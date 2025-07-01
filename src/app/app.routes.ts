@@ -6,6 +6,7 @@ import { UsersComponent } from './pages/users/users.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
 import { AdminRoleGuard } from './guards/admin-role.guard';
+import { SuperAdminRoleGuard } from './guards/super-admin-role.guard';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { GuestGuard } from './guards/guest.guard';
 import { IRoleType } from './interfaces';
@@ -48,14 +49,15 @@ export const routes: Routes = [
       {
         path: 'users',
         component: UsersComponent,
-        canActivate:[AdminRoleGuard],
+        canActivate: [SuperAdminRoleGuard],
         data: { 
           authorities: [
-            IRoleType.admin, 
             IRoleType.superAdmin
           ],
           name: 'Users',
-          showInSidebar: true
+          showInSidebar: true,
+          // Indicamos claramente que solo SUPER_ADMIN puede acceder
+          superAdminOnly: true
         }
       },
       {
@@ -121,7 +123,9 @@ export const routes: Routes = [
             IRoleType.user
           ],
           name: 'Productos',
-          showInSidebar: true
+          showInSidebar: true,
+          // Indicamos que solo SUPER_ADMIN puede modificar
+          editPermission: IRoleType.superAdmin
         }
       },
       {
@@ -135,7 +139,9 @@ export const routes: Routes = [
             IRoleType.user
           ],
           name: 'Categorías',
-          showInSidebar: true
+          showInSidebar: true,
+          // Indicamos que solo SUPER_ADMIN puede modificar
+          editPermission: IRoleType.superAdmin
         }
       },
     ],

@@ -1,0 +1,24 @@
+.super-admin-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #fff;
+  background-color: #dc3545;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+  
+  .fas {
+    margin-right: 0.5rem;
+  }
+}
+
+// Estilo para la tabla de usuarios
+app-user-list {
+  margin-bottom: 1rem;
+}
+
+// Estilos para el modal
+.modal-content {
+  border-radius: 0.5rem;
+}
