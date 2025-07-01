@@ -12,10 +12,8 @@ import { IRoleType } from './interfaces';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { GamesComponent } from './pages/games/games.component';
 import { OrdersComponent } from './pages/orders/orders.component';
-import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
-import { SportTeamComponent } from './pages/sport-team/sport-team.component';
-import { ProductsComponent } from './pages/products/products.component';
-import { CategoryListComponent } from './components/categories/category-list/category-list.component';
+import { CategoryListComponent } from './components/category-list/category-list.component';
+import { ProductListComponent } from './components/products/product-list/product-list.component';
 
 export const routes: Routes = [
   {
@@ -74,32 +72,6 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'products',
-        component: ProductsComponent,
-        data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user
-          ],
-          name: 'Productos',
-          showInSidebar: true
-        }
-      },
-       {
-        path: 'categories',
-        component: CategoryListComponent,
-        data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user
-          ],
-          name: 'Categorías',
-          showInSidebar: true
-        }
-      }, 
-      {
         path: 'profile',
         component: ProfileComponent,
         data: { 
@@ -139,28 +111,28 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'preference-list',
-        component: PreferenceListPageComponent,
+        path: 'categories',
+        component: CategoryListComponent,
         data: { 
           authorities: [
             IRoleType.admin, 
             IRoleType.superAdmin,
             IRoleType.user,
           ],
-          name: 'preference list',
+          name: 'categories',
           showInSidebar: true
         }
       },
       {
-        path: 'sport-team',
-        component: SportTeamComponent,
+        path: 'products',
+        component: ProductListComponent,
         data: { 
           authorities: [
             IRoleType.admin, 
             IRoleType.superAdmin,
             IRoleType.user,
           ],
-          name: 'Sport Team',
+          name: 'products',
           showInSidebar: true
         }
       },

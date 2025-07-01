@@ -17,12 +17,4 @@ export class AlertService {
     });
   }
 
-  success(message: string, horizontalPosition?: MatSnackBarHorizontalPosition, verticalPosition?: MatSnackBarVerticalPosition) {
-    this.displayAlert('success', message, horizontalPosition, verticalPosition, ['success-snackbar']);
-  }
-
-  error(message: string, horizontalPosition?: MatSnackBarHorizontalPosition, verticalPosition?: MatSnackBarVerticalPosition) {
-    this.displayAlert('error', message, horizontalPosition, verticalPosition, ['error-snackbar']);
-  }
-
 }

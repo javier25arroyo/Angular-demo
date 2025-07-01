@@ -1,0 +1,35 @@
+<div class="container mt-4">
+  <h2>Categorías</h2>
+
+  <div class="mb-3">
+    <input [(ngModel)]="newCategoryName" class="form-control" placeholder="Nueva categoría">
+    <button class="btn btn-primary mt-2" (click)="addCategory()">Agregar</button>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cat of categories">
+        <td>{{cat.id}}</td>
+        <td>
+          <div *ngIf="editCategoryId !== cat.id">{{cat.name}}</div>
+          <div *ngIf="editCategoryId === cat.id">
+            <input [(ngModel)]="editCategoryName" class="form-control">
+          </div>
+        </td>
+        <td>
+          <button *ngIf="editCategoryId !== cat.id" class="btn btn-warning btn-sm" (click)="startEdit(cat)">Editar</button>
+          <button *ngIf="editCategoryId === cat.id" class="btn btn-success btn-sm" (click)="updateCategory()">Guardar</button>
+          <button *ngIf="editCategoryId === cat.id" class="btn btn-secondary btn-sm" (click)="cancelEdit()">Cancelar</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteCategory(cat.id!)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

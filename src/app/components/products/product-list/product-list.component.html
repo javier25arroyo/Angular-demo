@@ -1,0 +1,51 @@
+<div class="container mt-4">
+  <h2>Productos</h2>
+
+  <div class="mb-3">
+    <input [(ngModel)]="newProductName" class="form-control mb-2" placeholder="Nombre del producto">
+    <input type="number" [(ngModel)]="newProductPrice" class="form-control mb-2" placeholder="Precio">
+    <input type="number" [(ngModel)]="newProductCategoryId" class="form-control mb-2" placeholder="ID Categoría">
+    <button class="btn btn-primary mt-2" (click)="addProduct()">Agregar</button>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>ID Categoría</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let prod of products">
+        <td>{{prod.id}}</td>
+        <td>
+          <div *ngIf="editProductId !== prod.id">{{prod.name}}</div>
+          <div *ngIf="editProductId === prod.id">
+            <input [(ngModel)]="editProductName" class="form-control">
+          </div>
+        </td>
+        <td>
+          <div *ngIf="editProductId !== prod.id">{{prod.price}}</div>
+          <div *ngIf="editProductId === prod.id">
+            <input type="number" [(ngModel)]="editProductPrice" class="form-control">
+          </div>
+        </td>
+        <td>
+          <div *ngIf="editProductId !== prod.id">{{prod.categoryId}}</div>
+          <div *ngIf="editProductId === prod.id">
+            <input type="number" [(ngModel)]="editProductCategoryId" class="form-control">
+          </div>
+        </td>
+        <td>
+          <button *ngIf="editProductId !== prod.id" class="btn btn-warning btn-sm" (click)="startEdit(prod)">Editar</button>
+          <button *ngIf="editProductId === prod.id" class="btn btn-success btn-sm" (click)="updateProduct()">Guardar</button>
+          <button *ngIf="editProductId === prod.id" class="btn btn-secondary btn-sm" (click)="cancelEdit()">Cancelar</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteProduct(prod.id!)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

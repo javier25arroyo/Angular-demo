@@ -1,64 +1,33 @@
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Injectable, Signal, computed, inject, signal } from '@angular/core';
-import { ICategory, ISearch } from '../interfaces';
-import { Observable, finalize, tap } from 'rxjs';
-import { AlertService } from './alert.service';
+import { Observable } from 'rxjs';
+
+export interface Category {
+  id?: number;
+  name: string;
+}
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class CategoryService {
-  private http = inject(HttpClient);
-  private alertService = inject(AlertService);
-  
-  private _categories = signal<ICategory[]>([]);
-  
-  categories$ = computed(() => this._categories());
-  
-  search: ISearch = {
-    pageSize: 5,
-    page: 1,
-  };
+  private apiUrl = 'api/categories';
 
-  isLoading = signal<boolean>(false);
+  constructor(private http: HttpClient) {}
 
-  getAll(): Observable<ICategory[]> {
-    this.isLoading.set(true);
-    return this.http
-      .get<ICategory[]>(`categories?page=${this.search.page}&size=${this.search.pageSize}`)
-      .pipe(
-        tap((resp: any) => {
-          this._categories.set(resp.data);
-          this.search.totalPages = resp.meta.totalPages;
-        }),
-        finalize(() => this.isLoading.set(false))
-      );
+  getCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(this.apiUrl);
   }
 
-  save(category: ICategory): Observable<ICategory> {
-    return this.http.post<ICategory>('categories', category).pipe(
-      tap(() => {
-        this.alertService.success('Categoría guardada correctamente');
-        this.getAll().subscribe();
-      })
-    );
+  createCategory(category: Category): Observable<Category> {
+    return this.http.post<Category>(this.apiUrl, category);
   }
 
-  update(category: ICategory): Observable<ICategory> {
-    return this.http.put<ICategory>(`categories/${category.id}`, category).pipe(
-      tap(() => {
-        this.alertService.success('Categoría actualizada correctamente');
-        this.getAll().subscribe();
-      })
-    );
+  updateCategory(id: number, category: Category): Observable<Category> {
+    return this.http.put<Category>(`${this.apiUrl}/${id}`, category);
   }
 
-  delete(category: ICategory): Observable<void> {
-    return this.http.delete<void>(`categories/${category.id}`).pipe(
-      tap(() => {
-        this.alertService.success('Categoría eliminada correctamente');
-        this.getAll().subscribe();
-      })
-    );
+  deleteCategory(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }
